@@ -8,7 +8,7 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
-//Conexão de usúario
+//Conexï¿½o de usï¿½ario
 io.on("connection", function (socket) {
   socket.on("chat message", function (msg) {
     console.log("a user connected");
@@ -18,10 +18,8 @@ io.on("connection", function (socket) {
     var reverseMsg = splitMsg.reverse();
     var msgFinal = reverseMsg.join("");
 
-    if (isNaN(msg))
-      io.emit('chat message', msgFinal);
-    else
-      io.emit('chat message', tamanhoMensagens(msgFinal));
+    if (isNaN(msg)) io.emit("chat message", msgFinal);
+    else io.emit("chat message", tamanhoMensagens(msgFinal));
   });
 });
 
@@ -37,8 +35,7 @@ function tamanhoMensagens(numByte) {
   var texto = "";
   for (var i = 0; i < numByte; i++) {
     texto = texto + "a";
-    if (numByte % 100 == 0)
-      texto = texto + "\n";
+    if (numByte % 100 == 0) texto = texto + "\n";
   }
   return texto;
 }
@@ -50,11 +47,15 @@ sIO.on = (function () {
   var speedLimit = 5; //5ms
   return function (message, handler) {
     messages[message] = messages[message] || {};
-    if (messages[message].timestamp && new Date().getTime() - messages[message].timestamp < speedLimit) return false;
+    if (
+      messages[message].timestamp &&
+      new Date().getTime() - messages[message].timestamp < speedLimit
+    )
+      return false;
     else messages[message].timestamp = new Date().getTime();
 
     handler();
     return true;
     //execute code, Ex:
-  }
-}());
+  };
+})();
