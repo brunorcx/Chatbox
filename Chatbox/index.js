@@ -12,7 +12,13 @@ app.get("/", function (req, res) {
 io.on("connection", function (socket) {
   socket.on("chat message", function (msg) {
     console.log("a user connected");
-    io.emit("chat message", msg);
+
+    //funcao para reverter a mensagem
+    var splitMsg = msg.split("");
+    var reverseMsg = splitMsg.reverse();
+    var msgFinal = reverseMsg.join("");
+
+    io.emit("chat message", msgFinal);
   });
 });
 
