@@ -10,15 +10,16 @@ app.get("/", function (req, res) {
 
 //Conex�o de us�ario
 io.on("connection", function (socket) {
-  socket.on("chat message", function (msg) {
+  socket.on("chat message", function (msg, user) {
     console.log("a user connected");
 
     //funcao para reverter a mensagem
     var splitMsg = msg.split("");
     var reverseMsg = splitMsg.reverse();
     var msgFinal = reverseMsg.join("");
+    if (user == "") user = "Anônimo";
 
-    if (isNaN(msg)) io.emit("chat message", msgFinal);
+    if (isNaN(msg)) io.emit("chat message", user + ": " + msgFinal);
     else io.emit("chat message", tamanhoMensagens(msgFinal));
   });
 });
